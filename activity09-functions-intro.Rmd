@@ -1,6 +1,6 @@
 ---
 title: "Activity 9"
-author: "Name"
+author: "Nick"
 output: github_document
 ---
 
@@ -14,6 +14,21 @@ In this activity, we will create a function for calculating the range of a numer
 
 To begin, we need `{tidyverse}` and `{gapminder}` (for a dataset to test our functions with) packages loaded.
 
+```{r tidyverse}
+
+library(tidyverse)
+
+library(gapminder)
+
+```
+
+
+```{r gapminder}
+
+library(gapminder)
+
+
+```
 
 
 
@@ -24,12 +39,22 @@ To begin, we need `{tidyverse}` and `{gapminder}` (for a dataset to test our fun
 In the space below, test the `max`, `min`, and `range` functions with appropriate variables from the `gapminder` dataset using the `dataset$variable` method (e.g., `function(dataset$variable)`).
 
 
+```{r calculate range}
+
+max(gapminder$gdpPercap)
+min(gapminder$gdpPercap)
+range(gapminder$gdpPercap)
+
+
+```
+
+
 
 Now, recall that in statistics *range = max - min*.
 Below, describe how you could you use the output from some combination of the above functions to calculate the range?
 Note that I can think of two different methods: 1) using `min` and `max`, and 2) using `range` to obtain the two values, then taking the difference of these values using the square bracket (`[]`) method (twice).
 
-**Response**: 
+**That would be simple, have a function in R that returns, max, min and range all in one function**: 
 
 I will now walk through creating a function using the second method.
 Whenever I write a function, I start with a specific example that works.
@@ -53,7 +78,7 @@ That is, I am trying to determine which values/calculations "change" and which v
 
 ```{r generalized}
 # set changing item
-vairable <- gapminder$lifeExp
+variable <- gapminder$lifeExp
 
 # generalize previous example code
 range_results <- range(variable)
@@ -91,12 +116,28 @@ diff_range <- function(x){
   diff_values <- larger_value - smaller_value
   return(diff_values)
 }
+
+
+diff_range(variable[1:10])
 ```
 
 Test this function to verify that it works.
 Below check this function using the `lifeExp` column of the `gapminder` dataset.
 Also, verify that it gets the correct result for `1:10` (a sequence of numbers starting at 1 and ending at 10, increasing by 1), `5:100`, `gapminder$pop` (the population of each country in the `gapminder` data set), and `gapminder$gdpPercap`.
 
+```{r Testing that it works}
+
+
+
+ range_results <- range(variable[1:10])
+  larger_value <- range_results[2]
+  smaller_value <- range_results[1]
+
+
+larger_value - smaller_value
+
+
+```
 
 
 
@@ -112,12 +153,32 @@ Convince yourself that you know how to use it by being able to explain what the 
 - `quantile(gapminder$lifeExp, probs = 0.5)`
 - `quantile(gapminder$lifeExp, probs = c(0.25, 0.75))`
 
+
+
+
+
 Also, explore this function with different `probs`.
 
 
 
 Once, you feel comfortable with the `quantile` function, create a function named `quantile_range` that calculates the statistical range.
 
+
+
+```{r time to make own function}
+
+quantile_range <- function(x, a, b) {
+  
+unname(quantile(x, probs = a) - quantile(x, probs = b))
+ 
+  
+}
+
+
+quantile_range(gapminder$gdpPercap, 0.75, 0.25)
+
+
+```
 
 
 Test your function to verify that it works.
