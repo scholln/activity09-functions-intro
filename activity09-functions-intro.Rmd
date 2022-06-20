@@ -21,16 +21,17 @@ To begin, we need `{tidyverse}` and `{gapminder}` (for a dataset to test our fun
 
 ### Calculating the range
 
-Look at the output of the `max`, `min`, and `range` functions.
-Use these with appropriate variables from the `gapminder::gapminder` dataset using the `dataset$variable` method.
-Remember that in statistics *range = max - min*.
-Describe how you could you use the output from some combination of the above functions to calculate the range?
-Note that I can think of two different methods: 1) using `min` and `max`, and 2) using `range` with the square bracket (`[]`) method.
+In the space below, test the `max`, `min`, and `range` functions with appropriate variables from the `gapminder` dataset using the `dataset$variable` method (e.g., `function(dataset$variable)`).
 
 
 
+Now, recall that in statistics *range = max - min*.
+Below, describe how you could you use the output from some combination of the above functions to calculate the range?
+Note that I can think of two different methods: 1) using `min` and `max`, and 2) using `range` to obtain the two values, then taking the difference of these values using the square bracket (`[]`) method (twice).
 
-I will walk through creating a function using the second method.
+**Response**: 
+
+I will now walk through creating a function using the second method.
 Whenever I write a function, I start with a specific example that works.
 
 ```{r simple_example}
@@ -51,12 +52,15 @@ Next, I will try to generalize the work.
 That is, I am trying to determine which values/calculations "change" and which values/calculations stay the same.
 
 ```{r generalized}
-# set changing values
-range_results <- range(gapminder$lifeExp)
+# set changing item
+vairable <- gapminder$lifeExp
+
+# generalize previous example code
+range_results <- range(variable)
 larger_value <- range_results[2]
 smaller_value <- range_results[1]
 
-# perform calculation that stays the same
+# perform calculation that stays the same as before
 diff_values <- larger_value - smaller_value
 
 # could also simply do

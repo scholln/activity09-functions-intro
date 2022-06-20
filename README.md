@@ -9,17 +9,17 @@ corresponding Primers.
 
 In this activity, you will:
 
--   Write a function to scrape TV show information when provided with
-    the show’s TMDb website
+-   Write a function to compute the range of various
+    quantiles/percentiles pairings (e.g., IQR)
 
 ## ☑️ Task 1: The Workflow
 
+![fork](README-img/fork-icon.png) **Fork** this repo and clone it to a
+new [RStudio Project](https://rstudio.gvsu.edu/).
+
 Remember that more detailed directions can be found in [Task 1 of
 Activity
-4](https://github.com/gvsu-sta518/activity04-data-pipelines#%EF%B8%8F-task-1-the-workflow).
-
-![fork](README-img/fork-icon.png) **Fork** this repo and clone it to a
-new [RStudio Project](https://rstudio.gvsu.edu/)
+6](https://github.com/gvsu-sta518/activity06-pivoting#%EF%B8%8F-task-1-the-workflow).
 
 <img src="README-img/noun_pause.png" alt="pause" width = "20"/>
 <b>Planned Pause Point</b>: If you have any questions, contact your
