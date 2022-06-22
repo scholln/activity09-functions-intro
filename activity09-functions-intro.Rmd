@@ -167,9 +167,13 @@ Once, you feel comfortable with the `quantile` function, create a function named
 
 ```{r time to make own function}
 
-quantile_range <- function(x, a, b) {
+quantile_range <- function(x, a = 1, b = 0, ...) {
   
-unname(quantile(x, probs = a) - quantile(x, probs = b))
+  if(!is.numeric(x)){
+    stop("This has to be a number, dum dum")
+  }
+  
+unname(quantile(x, probs = a, ...) - quantile(x, probs = b))
  
   
 }
@@ -201,6 +205,15 @@ When we write functions, we should also make sure that it fails when we expect i
 
 Below, check that our function breaks for each of the above tests.
 
+```{r Im gonna wreck it}
+
+quantile_range("Go LAKERS!")
+
+
+
+```
+
+
 
 For functions that will be used again, it is a good practice to add argument validity checks.
 
@@ -225,6 +238,16 @@ Explore the two argument validity checks by adding them to the beginning of your
 Calculating the range of a set of data is convenient, but it would be nice if we could determine the range between certain quantiles too.
 For example, the interquartile range (*IQR = Q3 − Q1*).
  
+```{r I think this is a already IQR?}
+
+quantile_range(gapminder$gdpPercap, 1, 0)
+
+
+
+
+
+
+```
 
 
 
@@ -238,6 +261,12 @@ Test your function with:
 
 Also test that your function breaks when it should.
 
+```{r Break}
+
+quantile_range(gapminder$country)
+
+
+```
 
 
 
@@ -254,6 +283,11 @@ What happens if you call your `quantile_range` function, but do not supply speci
 That is, check `quantile_range(gapminder$lifeExp)`.
 
 
+```{r no probs}
+
+quantile_range(gapminder$lifeExp)
+
+```
 
 
 
@@ -266,6 +300,12 @@ Update your `quantile_range` function below (copy, paste, edit) to have the defa
 Check that your function works by specifying and not specifying the `probs` argument.
 Then, upgrade your function to contain a validity check for the new `probs` argument.
 
+```{r With default}
+
+quantile_range(gapminder$gdpPercap)
+
+
+```
 
 
 
@@ -284,13 +324,42 @@ quantile(z)
 quantile(z, na.rm = TRUE)
 ```
 
-**Response:**
+**What I believe it did was allow NA's to be present which caused an error to spit back out**
 
 Setting `na.rm` within your function without providing users a way to override this behavior would be ill-advised.
 Update your `quant_diff` function to be more robust (i.e., handle `NA`s) while also providing users to control the behavior around `NA`s.
 You are welcome to enforce your preferred choice when defining the default behavior, but be sure to provide a way for users to control this.
 
 
+```{r I think this is meant for diff range}
+diff_range <- function(x, a = "NO"){
+
+if(a == "GO") {
+    na.rm = TRUE
+  
+  
+  # set changing values
+  range_results <- range(x)
+  larger_value <- range_results[2]
+  smaller_value <- range_results[1]
+  
+  # perform calculation that stays the same
+  diff_values <- larger_value - smaller_value
+  return(diff_values)
+  }
+  
+   else if(any(is.na(x)) == TRUE) {
+    stop("This contains NA's")
+    
+    
+    
+  }
+  }
+
+
+diff_range(variable, "GO")
+
+```
 
 
 
@@ -310,8 +379,8 @@ You will also need to add `...` to where you want to allow for additional argume
 Test that this worked by running the following lines of code:
 
 ```{r}
-quantile_range(gapminder$lifeExp, probs = c(0.25, 0.75), type = 1)
-quantile_range(gapminder$lifeExp, probs = c(0.25, 0.75), type = 4)
+quantile_range(gapminder$lifeExp, a = 0.75, b = 0.25, type = 1)
+quantile_range(gapminder$lifeExp, a = 0.75, b = 0.25, type = 4)
 ```
 
 The `...` argument is useful for when you want to provide the ability to pass arbitrary arguments to another function, but don’t want to constantly be expanding the formal arguments.
@@ -330,7 +399,16 @@ Now we will see if it works within the `{tidyverse}`.
 
 In the code chunk below, calculate the IQR for the variable `gdpPercap` in the gapminder dataset for each continent in the year 2002.
 
-```{r}
+```{r gdpPercap}
+
+New_thing <- gapminder %>%
+  filter(year == 2002) 
+
+
+New_thing %>%
+  group_by(continent) %>%
+
+summarize(n = quantile_range(gdpPercap))
 
 ```
 
